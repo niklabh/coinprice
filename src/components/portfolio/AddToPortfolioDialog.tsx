@@ -78,14 +78,14 @@ const AddToPortfolioDialog: React.FC<AddToPortfolioDialogProps> = ({
       setSearching(true);
       try {
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/search?query=${debouncedSearch}`
+          `https://api.coingecko.com/api/v3/search?query=${debouncedSearch}&x_cg_demo_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`
         );
         const data = await response.json();
         
         if (data.coins.length > 0) {
           const ids = data.coins.slice(0, 10).map((c: SearchCoin) => c.id).join(',');
           const priceResponse = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`
+            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&x_cg_demo_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`
           );
           const priceData: PriceData = await priceResponse.json();
 

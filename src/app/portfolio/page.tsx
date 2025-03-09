@@ -51,7 +51,7 @@ const getCoinPrices = async (coinIds: string[]): Promise<PriceData> => {
   console.log('Fetching fresh price data from CoinGecko');
   try {
     const response = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=usd`
+      `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=usd&x_cg_demo_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`
     );
     
     if (!response.ok) {
