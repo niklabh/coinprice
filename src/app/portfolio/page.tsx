@@ -12,14 +12,6 @@ import { usePortfolioContext } from './layout';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface CoinData {
-  id: string;
-  name: string;
-  symbol: string;
-  current_price: number;
-  image: string;
-}
-
 // Extended holding with additional calculated fields
 interface HoldingWithValue extends PortfolioHolding {
   currentPrice?: number;

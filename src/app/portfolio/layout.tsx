@@ -3,8 +3,6 @@
 import { PropsWithChildren, useState, createContext, useContext } from 'react';
 import Header from '@/components/Header';
 import PortfolioSidebar from '@/components/portfolio/PortfolioSidebar';
-import { db } from '@/lib/db';
-import { useLiveQuery } from 'dexie-react-hooks';
 import CreatePortfolioModal from '@/components/portfolio/CreatePortfolioModal';
 
 // Create a simpler context for portfolio state
@@ -29,7 +27,6 @@ export default function PortfolioLayout({ children }: PropsWithChildren) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   
   // Don't automatically show the modal when there are no portfolios
-  const portfolioCount = useLiveQuery(() => db.portfolios.count());
   
   return (
     <PortfolioContext.Provider value={{ activePortfolioId, setActivePortfolioId }}>

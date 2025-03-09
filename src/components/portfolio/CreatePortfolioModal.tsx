@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { db, withDb } from '@/lib/db';
+import { withDb } from '@/lib/db';
 
 interface CreatePortfolioModalProps {
   isOpen: boolean;

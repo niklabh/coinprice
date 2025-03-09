@@ -94,7 +94,7 @@ const ExchangeLinks: React.FC<ExchangeLinksProps> = ({ coinSymbol, coinName }) =
       <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Important Notice</h3>
         <p className="text-gray-700 dark:text-gray-300">
-          We do not endorse any particular exchange. Please do your own research before choosing an exchange. Always verify the exchange's reputation, security features, fees, and available services.
+          We do not endorse any particular exchange. Please do your own research before choosing an exchange. Always verify the exchange&apos;s reputation, security features, fees, and available services.
         </p>
       </div>
     </div>
