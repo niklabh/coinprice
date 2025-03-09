@@ -23,9 +23,11 @@ async function getCoinData(id: string) {
   }
 }
 
+// This function will pre-render the most popular coins at build time for better performance
+// but now also allows dynamic loading of any other coin
 export async function generateStaticParams() {
   // Pre-render the most popular coins
-  const popularCoins = ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'cardano'];
+  const popularCoins = ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'cardano', 'solana', 'dogecoin', 'tron', 'polkadot', 'litecoin'];
   return popularCoins.map((id) => ({
     id,
   }));
