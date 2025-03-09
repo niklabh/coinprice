@@ -51,7 +51,7 @@ interface TrendingNFT {
     h24_volume: string;
     h24_average_sale_price: string;
     sparkline: string;
-    content: null | any;
+    content: null | unknown;
   };
 }
 
