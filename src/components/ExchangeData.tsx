@@ -59,7 +59,7 @@ const ExchangeData: React.FC<ExchangeDataProps> = ({ coinId, coinSymbol, isActiv
   }, [isActive, coinId, exchanges.length]);
 
   // Helper function to generate trading pair URLs
-  const getTradingPairUrl = (exchangeId: string, coinSymbol: string, coinId: string) => {
+  const getTradingPairUrl = (exchangeId: string, coinSymbol: string) => {
     const symbol = coinSymbol.toUpperCase();
     
     // Different URL patterns for different exchanges
@@ -187,7 +187,7 @@ const ExchangeData: React.FC<ExchangeDataProps> = ({ coinId, coinSymbol, isActiv
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   <a 
-                    href={getTradingPairUrl(exchange.id, coinSymbol, coinId)}
+                    href={getTradingPairUrl(exchange.id, coinSymbol)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
