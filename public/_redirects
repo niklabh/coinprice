@@ -1,0 +1,11 @@
+# Block problematic RSC requests
+*?_rsc=*  /dummy.json  200
+
+# Specific SPA routes - handle all paths in the app
+/coin/*      /index.html  200
+/trending/*  /index.html  200
+/portfolio/* /index.html  200
+/marketcapof/* /index.html  200
+
+# Default SPA fallback for all other routes
+/*  /index.html  200 

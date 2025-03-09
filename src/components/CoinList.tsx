@@ -23,6 +23,7 @@ type SortDirection = 'asc' | 'desc';
 
 interface CoinListProps {
   coins: Coin[];
+  onCoinClick?: (coinId: string) => void;
 }
 
 const PriceChange: React.FC<{ value: number | undefined }> = ({ value }) => {
@@ -43,12 +44,12 @@ const SortIcon: React.FC<{ active: boolean; direction: SortDirection }> = ({ act
   return <span className="ml-1 text-gray-700 dark:text-gray-300">{direction === 'asc' ? '↑' : '↓'}</span>;
 };
 
-const CoinList: React.FC<CoinListProps> = ({ coins }) => {
+const CoinList: React.FC<CoinListProps> = ({ coins, onCoinClick }) => {
   const [sortField, setSortField] = useState<SortField>('rank');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
   const handleSort = (field: SortField) => {
-    if (sortField === field) {
+    if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
@@ -57,43 +58,44 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
   };
 
   const sortedCoins = [...coins].sort((a, b) => {
-    let valA, valB;
-    
+    let aValue: number | undefined;
+    let bValue: number | undefined;
+
     switch (sortField) {
       case 'rank':
-        return sortDirection === 'asc' ? 1 : -1;  // Preserve current order or reverse
+        aValue = a.market_cap_rank;
+        bValue = b.market_cap_rank;
+        break;
       case 'price':
-        valA = a.current_price;
-        valB = b.current_price;
+        aValue = a.current_price;
+        bValue = b.current_price;
         break;
       case 'change_1h':
-        valA = a.price_change_percentage_1h_in_currency || 0;
-        valB = b.price_change_percentage_1h_in_currency || 0;
+        aValue = a.price_change_percentage_1h_in_currency;
+        bValue = b.price_change_percentage_1h_in_currency;
         break;
       case 'change_24h':
-        valA = a.price_change_percentage_24h || 0;
-        valB = b.price_change_percentage_24h || 0;
+        aValue = a.price_change_percentage_24h;
+        bValue = b.price_change_percentage_24h;
         break;
       case 'change_7d':
-        valA = a.price_change_percentage_7d_in_currency || 0;
-        valB = b.price_change_percentage_7d_in_currency || 0;
+        aValue = a.price_change_percentage_7d_in_currency;
+        bValue = b.price_change_percentage_7d_in_currency;
         break;
       case 'market_cap':
-        valA = a.market_cap;
-        valB = b.market_cap;
+        aValue = a.market_cap;
+        bValue = b.market_cap;
         break;
       case 'circulating_supply':
-        valA = a.circulating_supply;
-        valB = b.circulating_supply;
+        aValue = a.circulating_supply;
+        bValue = b.circulating_supply;
         break;
-      default:
-        return 0;
     }
-    
-    if (valA === valB) return 0;
-    
-    const result = valA < valB ? -1 : 1;
-    return sortDirection === 'asc' ? result : -result;
+
+    if (aValue === undefined) return 1;
+    if (bValue === undefined) return -1;
+
+    return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
   });
 
   return (
@@ -178,7 +180,12 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
         </thead>
         <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
           {sortedCoins.map((coin, index) => (
-            <tr key={coin.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+            <tr 
+              key={coin.id} 
+              className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors"
+              onClick={() => onCoinClick && onCoinClick(coin.id)}
+              data-prefetch="false"
+            >
               <td className="px-1 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 {index + 1}
               </td>

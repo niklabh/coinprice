@@ -6,6 +6,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 CoinPrice is a web application that allows users to track cryptocurrency prices and manage their crypto portfolios. The application provides real-time price data from the CoinGecko API and allows users to create and manage multiple portfolios of cryptocurrency holdings.
 
+# ICP canister
+
+https://hzeuf-oaaaa-aaaap-qpxqa-cai.icp0.io/
+
 ## Features
 
 - **Real-time Cryptocurrency Data**: View up-to-date prices, market caps, and price changes for top cryptocurrencies.

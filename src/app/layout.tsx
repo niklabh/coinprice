@@ -79,6 +79,56 @@ export default function RootLayout({
             }
           `}
         </Script>
+        <Script id="spa-support" strategy="beforeInteractive">
+          {`
+            // Block problematic RSC requests
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+              if (typeof url === 'string' && 
+                  url.includes('.txt') && 
+                  url.includes('_rsc')) {
+                return Promise.resolve(new Response(JSON.stringify({}), {
+                  status: 200,
+                  headers: { 'Content-Type': 'application/json' }
+                }));
+              }
+              return originalFetch(url, options);
+            };
+
+            // Support SPA navigation
+            (function() {
+              // Handle initial navigation
+              function handleInitialNavigation() {
+                const path = window.location.pathname;
+                
+                // Check if this is a direct link to a dynamic route
+                if (path !== '/' && !path.endsWith('.html')) {
+                  // Store the path to be used by our client component
+                  window.__initialPath = path;
+                  
+                  // For deep links like /coin/uniswap that would normally 404
+                  if (path.startsWith('/coin/') || 
+                      path.startsWith('/portfolio/') || 
+                      path.startsWith('/trending/') || 
+                      path.startsWith('/marketcapof/')) {
+                        
+                    console.log('SPA: Handling dynamic route', path);
+                    
+                    // Store the current URL to handle in our SPA
+                    try {
+                      window.sessionStorage.setItem('spa_navigation_path', path);
+                    } catch (e) {
+                      console.error('Failed to store navigation path:', e);
+                    }
+                  }
+                }
+              }
+              
+              // Call on initial load
+              handleInitialNavigation();
+            })();
+          `}
+        </Script>
         <link rel="canonical" href={siteUrl} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}>

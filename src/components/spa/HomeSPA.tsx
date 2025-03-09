@@ -5,6 +5,7 @@ import CoinList from '@/components/CoinList';
 import Header from '@/components/Header';
 import MarketInfo from '@/components/MarketInfo';
 import Script from 'next/script';
+import { useRouter } from 'next/navigation';
 import CoinDetail from '@/components/CoinDetail';
 
 // Define types for our data
@@ -69,21 +70,23 @@ interface CoinData {
   };
 }
 
-export default function Home() {
-  // State for main route handling
-  const [currentRoute, setCurrentRoute] = useState('/');
-  
-  // State for main page data
+export default function HomeSPA() {
+  // State for main list data
   const [coins, setCoins] = useState<Coin[]>([]);
   const [globalData, setGlobalData] = useState<GlobalData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // State for coin detail
+  // State for SPA routing
+  const [currentRoute, setCurrentRoute] = useState('/');
   const [coinId, setCoinId] = useState<string | null>(null);
+  
+  // State for coin detail
   const [coinData, setCoinData] = useState<CoinData | null>(null);
   const [coinLoading, setCoinLoading] = useState(false);
   const [coinError, setCoinError] = useState<string | null>(null);
+  
+  const router = useRouter();
 
   // Handle route changes
   const handleRouteChange = useCallback((path: string) => {
@@ -107,34 +110,11 @@ export default function Home() {
 
   // Check for direct navigation on first render
   useEffect(() => {
-    // First check URL parameters (from 404.html redirect)
-    const urlParams = new URLSearchParams(window.location.search);
-    const pathParam = urlParams.get('path');
-    
-    if (pathParam) {
-      handleRouteChange(pathParam);
-      // Clean up the URL
-      window.history.replaceState(null, '', pathParam);
-      return;
-    }
-    
-    // Then check session storage (from SPA script)
-    try {
-      const storedPath = sessionStorage.getItem('spa_navigation_path');
-      if (storedPath) {
-        console.log('Found stored path:', storedPath);
-        handleRouteChange(storedPath);
-        sessionStorage.removeItem('spa_navigation_path');
-        return;
-      }
-    } catch (e) {
-      console.error('Error checking sessionStorage:', e);
-    }
-    
-    // If no stored path, use the current path
-    const path = window.location.pathname;
-    if (path !== '/') {
-      handleRouteChange(path);
+    // Check if we have a stored navigation path from a direct visit
+    const storedPath = sessionStorage.getItem('spaNavigationPath');
+    if (storedPath) {
+      handleRouteChange(storedPath);
+      sessionStorage.removeItem('spaNavigationPath');
     }
     
     // Set up a popstate listener for back/forward navigation
@@ -180,14 +160,11 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Fetch coin data when coinId changes
+  // Fetch coin data when viewing a specific coin
   useEffect(() => {
+    if (!coinId) return;
+    
     const fetchCoinData = async () => {
-      if (!coinId) {
-        setCoinData(null);
-        return;
-      }
-      
       try {
         setCoinLoading(true);
         setCoinError(null);
@@ -197,11 +174,13 @@ export default function Home() {
         );
 
         if (!response.ok) {
-          throw new Error(response.status === 404 ? 'Coin not found' : 'Failed to fetch coin data');
+          if (response.status === 404) {
+            throw new Error('Coin not found');
+          }
+          throw new Error('Failed to fetch coin data');
         }
 
         const data = await response.json();
-        
         setCoinData({
           id: data.id,
           symbol: data.symbol,
@@ -223,16 +202,16 @@ export default function Home() {
           atl: data.market_data.atl.usd,
           atl_change_percentage: data.market_data.atl_change_percentage.usd,
           atl_date: data.market_data.atl_date.usd,
-          description: data.description.en,
+          description: data.description.en || '',
           links: {
-            homepage: data.links.homepage[0],
-            blockchain_site: data.links.blockchain_site.filter(Boolean)[0],
-            official_forum_url: data.links.official_forum_url.filter(Boolean)[0],
-            subreddit_url: data.links.subreddit_url,
-            twitter_screen_name: data.links.twitter_screen_name,
-            facebook_username: data.links.facebook_username,
-            telegram_channel_identifier: data.links.telegram_channel_identifier,
-            github_repos: data.links.repos_url.github
+            homepage: data.links.homepage[0] || '',
+            blockchain_site: data.links.blockchain_site.filter(Boolean)[0] || '',
+            official_forum_url: data.links.official_forum_url.filter(Boolean)[0] || '',
+            subreddit_url: data.links.subreddit_url || '',
+            twitter_screen_name: data.links.twitter_screen_name || '',
+            facebook_username: data.links.facebook_username || '',
+            telegram_channel_identifier: data.links.telegram_channel_identifier || '',
+            github_repos: data.links.repos_url.github || []
           }
         });
       } catch (err) {
@@ -265,37 +244,42 @@ export default function Home() {
     }
   };
 
-  // Render based on current route
+  // Render the appropriate content based on the current route
   const renderContent = () => {
     // If we're on a coin detail page
-    if (coinId) {
+    if (currentRoute.startsWith('/coin/')) {
       return (
-        <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 pt-4 pb-8">
-          {coinLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <p className="text-lg">Loading coin data...</p>
-            </div>
-          ) : coinError ? (
-            <div className="flex justify-center items-center h-64">
-              <p className="text-lg text-red-500">{coinError}</p>
-            </div>
-          ) : coinData ? (
-            <CoinDetail coin={coinData} />
-          ) : null}
+        <div className="relative">
+          <Header />
+          <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 pt-4 pb-8">
+            {coinLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <p className="text-lg">Loading coin data...</p>
+              </div>
+            ) : coinError ? (
+              <div className="flex justify-center items-center h-64">
+                <p className="text-lg text-red-500">{coinError}</p>
+              </div>
+            ) : coinData ? (
+              <CoinDetail coin={coinData} />
+            ) : null}
+          </div>
         </div>
       );
     }
     
-    // Home page
+    // Default to home page
     return (
-      <>
+      <div className="relative">
+        <Header />
+
         {/* Market Info */}
         <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 pt-4">
           {loading ? (
             <div className="p-4 text-center">Loading market data...</div>
           ) : error ? (
             <div className="p-4 text-center text-red-500">Error: {error}</div>
-          ) : (
+          ) : globalData && (
             <MarketInfo globalData={globalData} />
           )}
         </div>
@@ -321,45 +305,9 @@ export default function Home() {
             )}
           </div>
         </div>
-
-        {/* Introduction for SEO */}
-        <section className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 py-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-4 mb-4">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-              Live Cryptocurrency Prices and Market Data
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-3">
-              Welcome to CoinPrice, your go-to platform for tracking real-time cryptocurrency prices, market capitalizations, and trading volumes. Our comprehensive dashboard provides up-to-date information on Bitcoin, Ethereum, and hundreds of altcoins, helping you make informed investment decisions.
-            </p>
-            <p className="text-gray-600 dark:text-gray-400">
-              Whether you are a seasoned trader or new to the world of cryptocurrencies, CoinPrice offers the tools you need to monitor market trends, manage your portfolio, and stay ahead of the curve in this dynamic digital asset landscape.
-            </p>
-          </div>
-        </section>
-          
-        {/* Additional SEO Content */}
-        <section className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 py-6">
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-4">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
-              Why Track Cryptocurrency Prices?
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Market Insights</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Cryptocurrency markets operate 24/7, making it essential to have access to real-time data. CoinPrice provides up-to-the-minute price updates, historical charts, and market indicators to help you identify trends and make data-driven decisions.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Portfolio Management</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Keep track of your cryptocurrency investments in one place. Our portfolio tools allow you to monitor performance, calculate gains and losses, and analyze your asset allocation across different cryptocurrencies.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
+        
+        {/* Rest of the home page content */}
+      </div>
     );
   };
 
@@ -372,20 +320,8 @@ export default function Home() {
       />
       
       <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
-        <div className="relative">
-          <Header />
-          {renderContent()}
-          
-          {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-800 mt-4">
-            <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 py-3">
-              <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-                Data provided by CoinGecko API • Updated every 5 minutes
-              </div>
-            </div>
-          </div>
-        </div>
+        {renderContent()}
       </main>
     </>
   );
-}
+} 

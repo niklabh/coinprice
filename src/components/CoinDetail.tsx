@@ -23,14 +23,16 @@ interface CoinDetailProps {
     price_change_percentage_24h: number;
     market_cap_rank: number;
     circulating_supply: number;
-    description: { en: string };
+    description: string | { en: string };
     links: {
-      homepage: string[];
-      blockchain_site: string[];
-      official_forum_url: string[];
+      homepage: string | string[];
+      blockchain_site: string | string[];
+      official_forum_url: string | string[];
       twitter_screen_name: string;
       telegram_channel_identifier: string;
       subreddit_url: string;
+      facebook_username?: string;
+      github_repos?: string[];
     };
   };
 }
@@ -44,7 +46,7 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">About {coin.name}</h2>
       <div className="prose prose-lg max-w-none text-gray-700 dark:prose-invert dark:opacity-90"
-        dangerouslySetInnerHTML={{ __html: coin.description.en }}
+        dangerouslySetInnerHTML={{ __html: typeof coin.description === 'string' ? coin.description : coin.description.en }}
       />
     </div>
   );
@@ -173,9 +175,9 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Links</h2>
             <div className="space-y-4">
               {/* Website */}
-              {coin.links.homepage[0] && (
+              {typeof coin.links.homepage === 'string' ? (
                 <a
-                  href={coin.links.homepage[0]}
+                  href={coin.links.homepage}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -185,12 +187,27 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
                   </svg>
                   <span className="ml-3 text-gray-900 dark:text-white">Website</span>
                 </a>
+              ) : (
+                coin.links.homepage.map((homepage, index) => (
+                  <a
+                    key={index}
+                    href={homepage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <span className="ml-3 text-gray-900 dark:text-white">{index + 1}</span>
+                  </a>
+                ))
               )}
 
               {/* Explorer */}
-              {coin.links.blockchain_site[0] && (
+              {typeof coin.links.blockchain_site === 'string' ? (
                 <a
-                  href={coin.links.blockchain_site[0]}
+                  href={coin.links.blockchain_site}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -200,6 +217,21 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
                   </svg>
                   <span className="ml-3 text-gray-900 dark:text-white">Explorer</span>
                 </a>
+              ) : (
+                coin.links.blockchain_site.map((site, index) => (
+                  <a
+                    key={index}
+                    href={site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    <span className="ml-3 text-gray-900 dark:text-white">{index + 1}</span>
+                  </a>
+                ))
               )}
 
               {/* Twitter */}
