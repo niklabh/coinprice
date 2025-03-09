@@ -33,6 +33,16 @@ const Navigation = () => {
       >
         Portfolio
       </Link>
+      <Link
+        href="/trending"
+        className={`text-sm font-medium transition-colors ${
+          isActive('/trending') 
+            ? 'text-blue-600 dark:text-blue-400 font-semibold' 
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+        }`}
+      >
+        Trending
+      </Link>
     </nav>
   );
 };
