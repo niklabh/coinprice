@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { db, Portfolio, withDb } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDebounce } from '@/hooks/useDebounce';
+import Image from 'next/image';
 
 interface CoinData {
   id: string;
@@ -209,7 +210,14 @@ const AddToPortfolioDialog: React.FC<AddToPortfolioDialogProps> = ({
                       onClick={() => handleCoinSelect(coin)}
                       className="w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 text-left border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                     >
-                      <img src={coin.image} alt={coin.name} className="w-8 h-8 rounded-full" />
+                      <Image 
+                        src={coin.image} 
+                        alt={coin.name} 
+                        className="w-8 h-8 rounded-full"
+                        width={32}
+                        height={32}
+                        unoptimized
+                      />
                       <div>
                         <div className="text-gray-900 dark:text-white font-medium">{coin.name}</div>
                         <div className="text-gray-500 dark:text-gray-400 text-sm">{coin.symbol.toUpperCase()}</div>
@@ -265,7 +273,14 @@ const AddToPortfolioDialog: React.FC<AddToPortfolioDialogProps> = ({
             
             <div className="flex items-center gap-3 py-2">
               <div className="flex-shrink-0">
-                {selectedCoin && <img src={selectedCoin.image} alt={selectedCoin.name} className="w-10 h-10 rounded-full" />}
+                {selectedCoin && <Image 
+                  src={selectedCoin.image} 
+                  alt={selectedCoin.name} 
+                  className="w-10 h-10 rounded-full"
+                  width={40}
+                  height={40}
+                  unoptimized
+                />}
               </div>
               <div>
                 <div className="text-gray-900 dark:text-white font-medium">{selectedCoin?.name}</div>

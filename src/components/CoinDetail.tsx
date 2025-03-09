@@ -7,6 +7,7 @@ import TechnicalAnalysis from './TechnicalAnalysis';
 import AddToPortfolioDialog from './AddToPortfolioDialog';
 import TabContainer from './TabContainer';
 import ExchangeData from './ExchangeData';
+import Image from 'next/image';
 
 interface CoinDetailProps {
   coin: {
@@ -69,7 +70,14 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
       <div className="flex items-center mb-8">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20"></div>
-          <img src={coin.image} alt={coin.name} className="w-12 h-12 rounded-full" />
+          <Image 
+            src={coin.image} 
+            alt={coin.name} 
+            width={48} 
+            height={48} 
+            className="w-12 h-12 rounded-full"
+            unoptimized
+          />
         </div>
         <div className="ml-4">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">

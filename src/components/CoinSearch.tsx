@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
+import Image from 'next/image';
 
 interface Coin {
   id: string;
@@ -142,7 +143,14 @@ const CoinSearch: React.FC<CoinSearchProps> = ({ onSelect }) => {
                   }}
                   className="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 text-left transition-colors"
                 >
-                  <img src={coin.image} alt={coin.name} className="w-6 h-6 rounded-full" />
+                  <Image 
+                    src={coin.image} 
+                    alt={coin.name} 
+                    width={24} 
+                    height={24} 
+                    className="w-6 h-6 rounded-full"
+                    unoptimized
+                  />
                   <div>
                     <div className="text-gray-900 dark:text-white font-medium">{coin.name}</div>
                     <div className="text-gray-500 dark:text-gray-400 text-sm">{coin.symbol.toUpperCase()}</div>

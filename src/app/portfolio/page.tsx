@@ -9,6 +9,7 @@ import { formatPrice } from '@/utils/formatters';
 import AddToPortfolioDialog from '@/components/portfolio/AddToPortfolioDialog';
 import CreatePortfolioModal from '@/components/portfolio/CreatePortfolioModal';
 import { usePortfolioContext } from './layout';
+import Image from 'next/image';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -402,12 +403,28 @@ export default function PortfolioHome() {
                   .map((holding) => (
                     <div
                       key={holding.id}
-                      className="p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700"
+                      className="p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                     >
                       {/* Mobile view - stacked layout */}
                       <div className="md:hidden">
                         <div className="flex justify-between items-center mb-2">
                           <div className="flex items-center">
+                            {/* Add coin logo */}
+                            <div className="w-7 h-7 rounded-full mr-2 overflow-hidden flex-shrink-0">
+                              <Image 
+                                src={`https://assets.coincap.io/assets/icons/${holding.coinSymbol.toLowerCase()}@2x.png`}
+                                alt={holding.coinName}
+                                width={28}
+                                height={28}
+                                className="w-7 h-7 object-contain"
+                                unoptimized
+                                onError={(e) => {
+                                  // Fallback if the image doesn't load
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = `https://coinicons-api.vercel.app/api/icon/${holding.coinSymbol.toLowerCase()}`;
+                                }}
+                              />
+                            </div>
                             <h3 className="text-gray-900 dark:text-white font-medium">{holding.coinName}</h3>
                             <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">({holding.coinSymbol.toUpperCase()})</span>
                           </div>
@@ -439,9 +456,27 @@ export default function PortfolioHome() {
                       
                       {/* Desktop view - table layout */}
                       <div className="hidden md:grid md:grid-cols-5 md:items-center">
-                        <div className="px-2">
-                          <div className="font-medium text-gray-900 dark:text-white">{holding.coinName}</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">{holding.coinSymbol.toUpperCase()}</div>
+                        <div className="px-2 flex items-center">
+                          {/* Add coin logo */}
+                          <div className="w-7 h-7 rounded-full mr-2 overflow-hidden flex-shrink-0">
+                            <Image 
+                              src={`https://assets.coincap.io/assets/icons/${holding.coinSymbol.toLowerCase()}@2x.png`}
+                              alt={holding.coinName}
+                              width={28}
+                              height={28}
+                              className="w-7 h-7 object-contain"
+                              unoptimized
+                              onError={(e) => {
+                                // Fallback if the image doesn't load
+                                const target = e.target as HTMLImageElement;
+                                target.src = `https://coinicons-api.vercel.app/api/icon/${holding.coinSymbol.toLowerCase()}`;
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <div className="font-medium text-gray-900 dark:text-white">{holding.coinName}</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{holding.coinSymbol.toUpperCase()}</div>
+                          </div>
                         </div>
                         <div className="px-2 text-right text-gray-900 dark:text-white">
                           {formatPrice(holding.amount)} {holding.coinSymbol.toUpperCase()}

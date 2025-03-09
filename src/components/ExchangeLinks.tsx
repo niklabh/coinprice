@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 interface ExchangeLinksProps {
   coinSymbol: string;
@@ -76,10 +77,13 @@ const ExchangeLinks: React.FC<ExchangeLinksProps> = ({ coinSymbol, coinName }) =
           >
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center mr-3">
-                <img 
+                <Image 
                   src={exchange.logo} 
                   alt={`${exchange.name} logo`} 
                   className="w-7 h-7 object-contain"
+                  width={28}
+                  height={28}
+                  unoptimized
                 />
               </div>
               <span className="font-medium">{exchange.name}</span>

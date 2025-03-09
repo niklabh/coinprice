@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatPrice, formatLargeNumber } from '@/utils/formatters';
 
 interface Coin {
@@ -183,10 +184,13 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
               </td>
               <td className="px-2 sm:px-6 py-2 sm:py-4 whitespace-nowrap overflow-hidden">
                 <Link href={`/coin/${coin.id}`} className="flex items-center group">
-                  <img
+                  <Image
                     src={coin.image}
                     alt={coin.name}
+                    width={24}
+                    height={24}
                     className="w-5 h-5 sm:w-6 sm:h-6 mr-1 sm:mr-2 rounded-full flex-shrink-0"
+                    unoptimized
                   />
                   <div className="min-w-0 overflow-hidden">
                     <div className="hidden sm:block font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate">
