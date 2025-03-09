@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
 interface TabProps {
   label: string;
@@ -8,13 +8,22 @@ interface TabProps {
 interface TabContainerProps {
   tabs: TabProps[];
   defaultActiveTab?: number;
+  onTabChange?: Dispatch<SetStateAction<number>>;
 }
 
 const TabContainer: React.FC<TabContainerProps> = ({ 
   tabs, 
-  defaultActiveTab = 0 
+  defaultActiveTab = 0,
+  onTabChange
 }) => {
   const [activeTab, setActiveTab] = useState(defaultActiveTab);
+
+  const handleTabChange = (index: number) => {
+    setActiveTab(index);
+    if (onTabChange) {
+      onTabChange(index);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -23,7 +32,7 @@ const TabContainer: React.FC<TabContainerProps> = ({
         {tabs.map((tab, index) => (
           <button
             key={index}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabChange(index)}
             className={`py-3 px-5 text-sm font-medium rounded-t-lg ${
               activeTab === index
                 ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-gray-50 dark:bg-gray-800'

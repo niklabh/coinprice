@@ -6,7 +6,7 @@ import TradingViewWidget from './TradingViewWidget';
 import TechnicalAnalysis from './TechnicalAnalysis';
 import AddToPortfolioDialog from './AddToPortfolioDialog';
 import TabContainer from './TabContainer';
-import ExchangeLinks from './ExchangeLinks';
+import ExchangeData from './ExchangeData';
 
 interface CoinDetailProps {
   coin: {
@@ -36,6 +36,7 @@ interface CoinDetailProps {
 
 const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
 
   // About section content
   const AboutSection = (
@@ -47,15 +48,19 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
     </div>
   );
 
-  // Exchange links section
-  const BuySection = (
-    <ExchangeLinks coinSymbol={coin.symbol} coinName={coin.name} />
+  // Exchanges data section - will only load data when active
+  const ExchangesSection = (
+    <ExchangeData 
+      coinId={coin.id} 
+      coinSymbol={coin.symbol}
+      isActive={activeTab === 1} 
+    />
   );
 
   // Tab configuration
   const tabsConfig = [
     { label: 'About', content: AboutSection },
-    { label: `Where to Buy`, content: BuySection }
+    { label: 'Exchanges', content: ExchangesSection }
   ];
 
   return (
@@ -103,7 +108,7 @@ const CoinDetail: React.FC<CoinDetailProps> = ({ coin }) => {
           
           {/* Tabs section - replacing the old About section */}
           <div className="mt-8 bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-            <TabContainer tabs={tabsConfig} />
+            <TabContainer tabs={tabsConfig} defaultActiveTab={0} onTabChange={setActiveTab} />
           </div>
         </div>
 
