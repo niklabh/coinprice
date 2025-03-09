@@ -38,14 +38,14 @@ const MarketInfo = ({ globalData }: { globalData: GlobalData }) => {
   };
 
   return (
-    <div className="w-full rounded-xl bg-white dark:bg-gray-900 shadow-md border border-gray-200 dark:border-gray-800 p-5 mb-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+    <div className="w-full rounded-xl bg-white dark:bg-gray-900 shadow-md border border-gray-200 dark:border-gray-800 p-4">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
         <span className="inline-block w-2 h-6 bg-blue-500 rounded-sm mr-3"></span>
         Cryptocurrency Global Market
       </h2>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <div className="flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="flex flex-col p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
           <span className="text-sm text-gray-500 dark:text-gray-400 mb-1">Market Cap</span>
           <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
             {formatNumber(globalData.data.total_market_cap.usd)}
@@ -56,21 +56,21 @@ const MarketInfo = ({ globalData }: { globalData: GlobalData }) => {
           </span>
         </div>
         
-        <div className="flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
+        <div className="flex flex-col p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
           <span className="text-sm text-gray-500 dark:text-gray-400 mb-1">24h Trading Volume</span>
           <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
             {formatNumber(globalData.data.total_volume.usd)}
           </span>
         </div>
         
-        <div className="flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
+        <div className="flex flex-col p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
           <span className="text-sm text-gray-500 dark:text-gray-400 mb-1">BTC Dominance</span>
           <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
             {formatPercentage(globalData.data.market_cap_percentage.btc)}
           </span>
         </div>
         
-        <div className="flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
+        <div className="flex flex-col p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shadow-sm transition-all hover:shadow-md">
           <span className="text-sm text-gray-500 dark:text-gray-400 mb-1">ETH Dominance</span>
           <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
             {formatPercentage(globalData.data.market_cap_percentage.eth)}
@@ -78,7 +78,7 @@ const MarketInfo = ({ globalData }: { globalData: GlobalData }) => {
         </div>
       </div>
       
-      <div className="flex justify-between mt-5 pt-4 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
+      <div className="flex justify-between mt-3 pt-2 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
         <div className="flex items-center">
           <div className="w-2 h-2 rounded-full bg-blue-500 mr-2"></div>
           <span>Active Cryptocurrencies: {globalData.data.active_cryptocurrencies.toLocaleString()}</span>

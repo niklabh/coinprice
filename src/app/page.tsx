@@ -40,14 +40,14 @@ export default async function Home() {
         <Header />
 
         {/* Market Info */}
-        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 pt-4">
           <MarketInfo globalData={globalData} />
         </div>
 
         {/* Main Content */}
-        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 py-3">
           <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 overflow-hidden">
-            <div className="px-4 py-5 sm:px-6 border-b border-gray-200 dark:border-gray-800">
+            <div className="px-3 py-3 sm:px-4 border-b border-gray-200 dark:border-gray-800">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                 <span className="inline-block w-2 h-6 bg-blue-500 rounded-sm mr-3"></span>
                 Top Cryptocurrencies by Market Cap
@@ -61,8 +61,8 @@ export default async function Home() {
         </div>
         
         {/* Footer */}
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-8">
-          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="border-t border-gray-200 dark:border-gray-800 mt-4">
+          <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 py-3">
             <div className="text-center text-sm text-gray-500 dark:text-gray-400">
               Data provided by CoinGecko API • Updated every 5 minutes
             </div>

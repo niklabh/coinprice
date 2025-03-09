@@ -103,7 +103,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
           <tr>
             <th 
               scope="col" 
-              className="w-10 sm:w-auto px-2 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="w-10 sm:w-auto px-1 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('rank')}
             >
               <div className="flex items-center">
@@ -111,12 +111,12 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
                 <SortIcon active={sortField === 'rank'} direction={sortDirection} />
               </div>
             </th>
-            <th scope="col" className="w-1/3 sm:w-auto px-2 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <th scope="col" className="w-1/3 sm:w-auto px-1 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Name
             </th>
             <th 
               scope="col" 
-              className="w-1/4 sm:w-auto px-2 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="w-1/4 sm:w-auto px-1 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('price')}
             >
               <div className="flex items-center justify-end">
@@ -126,7 +126,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
             </th>
             <th 
               scope="col" 
-              className="w-1/4 sm:w-auto px-2 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="w-1/4 sm:w-auto px-1 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('change_24h')}
             >
               <div className="flex items-center justify-end">
@@ -136,7 +136,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
             </th>
             <th 
               scope="col" 
-              className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="hidden sm:table-cell px-3 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('change_1h')}
             >
               <div className="flex items-center justify-end">
@@ -146,7 +146,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
             </th>
             <th 
               scope="col" 
-              className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="hidden sm:table-cell px-3 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('change_7d')}
             >
               <div className="flex items-center justify-end">
@@ -156,7 +156,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
             </th>
             <th 
               scope="col" 
-              className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="hidden sm:table-cell px-3 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('market_cap')}
             >
               <div className="flex items-center justify-end">
@@ -166,7 +166,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
             </th>
             <th 
               scope="col" 
-              className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+              className="hidden sm:table-cell px-3 sm:px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
               onClick={() => handleSort('circulating_supply')}
             >
               <div className="flex items-center justify-end">
@@ -179,10 +179,10 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
         <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
           {sortedCoins.map((coin, index) => (
             <tr key={coin.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-              <td className="px-2 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              <td className="px-1 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 {index + 1}
               </td>
-              <td className="px-2 sm:px-6 py-2 sm:py-4 whitespace-nowrap overflow-hidden">
+              <td className="px-1 sm:px-4 py-2 sm:py-3 whitespace-nowrap overflow-hidden">
                 <Link href={`/coin/${coin.id}`} className="flex items-center group">
                   <Image
                     src={coin.image}
@@ -202,22 +202,22 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
                   </div>
                 </Link>
               </td>
-              <td className="px-2 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
+              <td className="px-1 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
                 ${formatPrice(coin.current_price)}
               </td>
-              <td className="px-2 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-right text-sm">
+              <td className="px-1 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm">
                 <PriceChange value={coin.price_change_percentage_24h} />
               </td>
-              <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm">
+              <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm">
                 <PriceChange value={coin.price_change_percentage_1h_in_currency} />
               </td>
-              <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm">
+              <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm">
                 <PriceChange value={coin.price_change_percentage_7d_in_currency} />
               </td>
-              <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
+              <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
                 ${formatLargeNumber(coin.market_cap)}
               </td>
-              <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
+              <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-right text-sm text-gray-900 dark:text-white">
                 {formatLargeNumber(coin.circulating_supply)} {coin.symbol.toUpperCase()}
               </td>
             </tr>
